@@ -24,7 +24,8 @@ import com.clotho.project.entity.Product;
 public class ProductController {
 
     private final ProductService productService;
-
+    
+    private String testt =null;
     private String test = null;
     public ProductController(ProductService productService) {
         this.productService = productService;
