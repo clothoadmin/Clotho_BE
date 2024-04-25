@@ -90,6 +90,7 @@ public class CreateProductDto {
 
     public boolean isListed() {
         return isListed;
+        
     }
 
     public void setListed(boolean listed) {
