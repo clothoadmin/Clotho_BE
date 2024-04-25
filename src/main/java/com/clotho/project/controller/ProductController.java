@@ -25,7 +25,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    
+    private String test = null;
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
