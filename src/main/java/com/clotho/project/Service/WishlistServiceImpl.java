@@ -3,6 +3,7 @@ package com.clotho.project.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.clotho.project.entity.WishlistItem;
 import com.clotho.project.repository.WishlistRepository;
@@ -10,6 +11,7 @@ import com.clotho.project.repository.WishlistRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
+@Service
 public class WishlistServiceImpl implements WishlistService {
 
     @Autowired

@@ -20,7 +20,7 @@ public class UserServiceImp implements UserService {
 	
 	private final EntityManager entityManager;
 	
-	@Autowired
+	
     public UserServiceImp(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

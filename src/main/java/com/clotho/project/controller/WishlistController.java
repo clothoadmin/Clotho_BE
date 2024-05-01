@@ -15,7 +15,7 @@ import com.clotho.project.entity.WishlistItem;
 import com.clotho.project.Service.WishlistService;
 
 @RestController
-@RequestMapping("/wishlist")
+@RequestMapping("/api/wishlist")
 public class WishlistController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class WishlistController {
         return wishlistService.getWishlistItemByUserId(userId);
     }
 
-    @PostMapping("/items")
+    @PostMapping("/addItem")
     public WishlistItem addWishlistItem(@RequestBody WishlistItem wishlistItem) {
         return wishlistService.addWishlistItem(wishlistItem);
     }
