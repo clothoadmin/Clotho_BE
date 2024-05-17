@@ -1,17 +1,30 @@
 package com.clotho.project.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
 public class CartItem {
     
     @Id
-    private int userId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int itemId;
+   
+	private int userId;
     private int productId;
     private int quantity; // Adding quantity for the cart item
 
     // Getters and setters
+    public int getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(int itemId) {
+		this.itemId = itemId;
+	}
+
 
     public int getUserId() {
         return userId;
@@ -42,4 +55,3 @@ public class CartItem {
         return "CartItem [userId=" + userId + ", productId=" + productId + ", quantity=" + quantity + "]";
     }
 }
-
