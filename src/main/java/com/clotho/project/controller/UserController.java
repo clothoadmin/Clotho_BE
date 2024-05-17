@@ -26,7 +26,7 @@ public class UserController {
     private UserServiceImp service;
 
     // Get all users
-    @GetMapping("/users")
+    @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
