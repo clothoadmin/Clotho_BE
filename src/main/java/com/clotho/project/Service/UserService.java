@@ -11,6 +11,7 @@ public interface UserService {
     Optional<User> getUserById(int id);
     
     User findByEmailAndPassword(String email, String password);
+    List<User> findUsersByRole(String role);
     
     User createUser(User user);
 

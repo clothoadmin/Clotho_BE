@@ -51,6 +51,12 @@ public class UserServiceImp implements UserService {
         query.setParameter("password", password);
         return query.uniqueResult();
     }
+    
+    @Override
+    public List<User> findUsersByRole(String role) {
+        return userRepository.findByRole(role);
+    }
+    
     @Override
     public Optional<User> updateUser(int id, User updatedUser) {
         Optional<User> existingUserOptional = userRepository.findById(id);

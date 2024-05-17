@@ -26,10 +26,14 @@ public class UserController {
     private UserServiceImp service;
 
     // Get all users
-    @GetMapping
+    @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+    @GetMapping("/role/{role}")
+    public List<User> getUsersByRole(@PathVariable String role) {
+        return service.findUsersByRole(role);
     }
 
     // Get a user by ID
