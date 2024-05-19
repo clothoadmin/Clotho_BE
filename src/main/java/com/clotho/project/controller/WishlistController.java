@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.clotho.project.entity.WishlistItem;
+import com.clotho.project.repository.WishlistRepository;
 import com.clotho.project.Service.WishlistService;
 
 @RestController
@@ -22,6 +23,9 @@ public class WishlistController {
 
     @Autowired
     private WishlistService wishlistService;
+    
+    @Autowired
+    private WishlistRepository repository;
 
     @GetMapping("/items")
     public List<WishlistItem> getAllWishlistItems() {
@@ -38,8 +42,8 @@ public class WishlistController {
         return wishlistService.addWishlistItem(wishlistItem);
     }
     
-    @DeleteMapping("/items/{userId}/{productId}")
-    public void deleteWishlistItem(@PathVariable int userId, @PathVariable int productId) {
-        wishlistService.deleteByUserIdAndProductId(userId, productId);
+    @DeleteMapping("/items/{itemId}")
+    public void deleteWishlistItem(@PathVariable int itemId) {
+        repository.deleteById(itemId);
     }
 }
