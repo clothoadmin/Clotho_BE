@@ -62,6 +62,18 @@ public class UserController {
         User savedUser = userRepository.save(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
+    
+    @PutMapping("/agents/promote/{id}")
+    public ResponseEntity<User> promoteAgent(@PathVariable int id){
+    	User existingUser = userRepository.findById(id)
+                .orElse(null);
+    	if (existingUser == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    	existingUser.setRole("admin");
+    	service.updateUser(id, existingUser);
+    	return new ResponseEntity<>(existingUser, HttpStatus.OK);
+    }
 
     // Update an existing user
     @PutMapping("/{id}")

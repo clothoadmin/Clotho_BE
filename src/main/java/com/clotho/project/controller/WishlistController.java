@@ -33,7 +33,7 @@ public class WishlistController {
     }
 
     @GetMapping("/items/{userId}")
-    public WishlistItem getWishlistItemByUserId(@PathVariable int userId) {
+    public List<WishlistItem> getWishlistItemByUserId(@PathVariable int userId) {
         return wishlistService.getWishlistItemByUserId(userId);
     }
 
