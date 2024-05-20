@@ -8,7 +8,7 @@ public interface WishlistService {
 
     List<WishlistItem> getAllWishlistItems();
 
-    WishlistItem getWishlistItemByUserId(int userId);
+    List<WishlistItem> getWishlistItemByUserId(int userId);
 
     WishlistItem addWishlistItem(WishlistItem wishlistItem);
 
