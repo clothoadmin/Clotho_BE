@@ -6,7 +6,7 @@ import com.clotho.project.entity.CartItem;
 
 public interface CartService {
     List<CartItem> getAllCartItems();
-    CartItem getCartItemByUserId(int userId);
+    List<CartItem> getCartItemByUserId(int userId);
     CartItem addCartItem(CartItem cartItem);
     void updateCartItemQuantity(int userId, int productId, int quantity);
     void deleteByUserIdAndProductId(int userId, int productId);

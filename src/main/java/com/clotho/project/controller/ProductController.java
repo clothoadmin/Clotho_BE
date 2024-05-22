@@ -102,9 +102,33 @@ public class ProductController {
     }
     
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable int id, @RequestBody Product product) {
-    	product.setModifiedOn(new Date());
-        return productService.updateProduct(id, product);
+    public Product updateProduct(@PathVariable int id, @RequestPart("product") ProductDTO product, @RequestPart(value = "img", required = false) MultipartFile img) throws IOException, SerialException, SQLException {
+    	Product existingProd = repository.findById(id).orElse(null);
+    	existingProd.setPname(product.getPname());
+    	existingProd.setPremium(product.getPremium());
+    	existingProd.setPrice(product.getPrice());
+    	existingProd.setCategory(product.getCategory());
+    	existingProd.setAge(product.getAge());
+    	existingProd.setPsize(product.getPsize());
+    	existingProd.setDiscount(product.getDiscount());
+    	existingProd.setQty(product.getQty());
+    	existingProd.setListed(product.isListed());
+    	existingProd.setModifiedBy(product.getModifiedBy());
+    	existingProd.setModifiedOn(new Date());
+    	
+    	if(img!= null) {
+    	try {
+    		existingProd.setImgType(img.getContentType());
+    		byte[] imgBytes = img.getBytes();
+    		existingProd.setImg(imgBytes);
+
+    		return productService.updateProduct(id, existingProd);
+    	}
+    	catch(Error e) {
+    		return (null);
+    	}}
+    	return productService.updateProduct(id, existingProd);
+        
     }
     
     @PutMapping("/unlist/{id}")
