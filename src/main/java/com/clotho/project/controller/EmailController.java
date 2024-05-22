@@ -1,11 +1,13 @@
 package com.clotho.project.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.clotho.project.DTO.ReplyDTO;
 import com.clotho.project.Service.EmailService;
 import com.clotho.project.entity.MessageItem;
 import com.clotho.project.repository.MessageRepository;
@@ -41,6 +44,11 @@ public class EmailController {
     public ResponseEntity<List<MessageItem>> getUnrepliedMessages() {
         List<MessageItem> messages = emailService.findByReplied(false);
         return ResponseEntity.ok(messages);
+    }
+    
+    @GetMapping("/{id}")
+    public Optional<MessageItem> getMessageById(@PathVariable int id){
+    	return messageRepository.findById(id);
     }
 
     // Messages replied = true
@@ -78,9 +86,24 @@ public class EmailController {
     }
 
     //edit this based on admin panel requirements
-	@RequestMapping("/send-test-email")
-	public String sendEmailTest() {
-		emailService.sendEmail("cl507iff@gmail.com","Email Testing","This is a test");
+	@PostMapping("/send-reply/{id}")
+	public String sendEmailTest( @PathVariable int id, @RequestBody ReplyDTO data) {
+		MessageItem message = messageRepository.findById(id).orElse(null);
+		message.setReplied(true);
+		message.setRepliedby("clothohq@gmail.com");
+		messageRepository.save(message);
+		emailService.sendEmail(data.getTo(),data.getSubject(),data.getBody());
 		return "Email Test sent successfully";
+	}
+	
+	@DeleteMapping("/delete/{id}")
+	public String deleteMessage(@PathVariable int id){
+		try {
+			messageRepository.deleteById(id);
+			return "deleted";
+		}catch(Error e) {
+			return "something went wrong";
+		}
+		
 	}
 }

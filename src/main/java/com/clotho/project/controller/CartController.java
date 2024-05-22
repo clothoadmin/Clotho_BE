@@ -35,12 +35,18 @@ public class CartController {
     }
 
     @GetMapping("/items/{userId}")
-    public CartItem getCartItemByUserId(@PathVariable int userId) {
+    public List<CartItem> getCartItemByUserId(@PathVariable int userId) {
         return cartService.getCartItemByUserId(userId);
     }
 
     @PostMapping("/items")
     public CartItem addCartItem(@RequestBody CartItem cartItem) {
+    	CartItem item = repository.findByUserIdAndProductId(cartItem.getUserId(),cartItem.getProductId());
+    	if (item != null) {
+    		item.setQuantity(item.getQuantity()+1);
+    		return repository.save(item);
+    	}
+    	cartItem.setQuantity(1);
         return cartService.addCartItem(cartItem);
     }
     
@@ -48,7 +54,7 @@ public class CartController {
     public CartItem updateCartItemQuantity( @PathVariable int itemId, @RequestParam("quantity") int quantity) {
         CartItem item=cartService.getCartItemById(itemId) ;
        if (item != null) {
-    	   item.setQuantity(quantity);
+    	   item.setQuantity(item.getQuantity()+ quantity);
     	   return repository.save(item);
     	   
        }
@@ -56,6 +62,17 @@ public class CartController {
     }
     @DeleteMapping("/items/{userId}/{productId}")
     public void deleteCartItem(@PathVariable int userId, @PathVariable int productId) {
-        cartService.deleteByUserIdAndProductId(userId, productId);
+    	CartItem item = repository.findByUserIdAndProductId(userId,productId);
+    	if (item != null) {
+    		if (item.getQuantity() > 1) {
+    			item.setQuantity(item.getQuantity()-1);
+        	    repository.save(item);
+    		}
+    		else {
+    			 cartService.deleteByUserIdAndProductId(userId, productId);
+    		}
+    		
+    	}
+       
     }
 }
