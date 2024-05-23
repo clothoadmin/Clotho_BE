@@ -36,14 +36,23 @@ public class WishlistController {
     public List<WishlistItem> getWishlistItemByUserId(@PathVariable int userId) {
         return wishlistService.getWishlistItemByUserId(userId);
     }
+    
+    @GetMapping("/items/find/{userId}/{productId}")
+    public WishlistItem findbyUserIdandProductId(@PathVariable int userId, @PathVariable int productId) {
+    	WishlistItem item = repository.findByUserIdAndProductId(userId, productId);
+    	if(item!=null) {
+    		return item;
+    	}
+    	else { return null; }
+    }
 
     @PostMapping("/addItem")
     public WishlistItem addWishlistItem(@RequestBody WishlistItem wishlistItem) {
         return wishlistService.addWishlistItem(wishlistItem);
     }
     
-    @DeleteMapping("/items/{itemId}")
-    public void deleteWishlistItem(@PathVariable int itemId) {
-        repository.deleteById(itemId);
+    @DeleteMapping("/items/{userId}/{productId}")
+    public void deleteWishlistItem(@PathVariable int userId, @PathVariable int productId) {
+        wishlistService.deleteByUserIdAndProductId(userId, productId);
     }
 }

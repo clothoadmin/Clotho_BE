@@ -35,6 +35,11 @@ public class UserController {
     public List<User> getUsersByRole(@PathVariable String role) {
         return service.findUsersByRole(role);
     }
+    
+    @GetMapping("/email/{email}")
+    public User getUsersByEmail(@PathVariable String email) {
+        return userRepository.findByEmail(email);
+    }
 
     // Get a user by ID
     @GetMapping("/{id}")

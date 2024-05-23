@@ -1,6 +1,8 @@
 package com.clotho.project.controller;
 import com.clotho.project.entity.Order;
+import com.clotho.project.entity.Product;
 import com.clotho.project.repository.OrderRepository;
+import com.clotho.project.repository.ProductRepository;
 import com.clotho.project.Service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +19,28 @@ public class OrderController {
     
     @Autowired
     private OrderRepository orderrepo;
+    
+    @Autowired
+    private ProductRepository prodrepo;
 
     @PostMapping
     public Order createOrder(@RequestBody Order order) {
-        return orderService.saveOrder(order);
+    	Product existingProd = prodrepo.findById(order.getProductId()).orElse(null); 
+    	if(existingProd !=null && existingProd.getQty()>= order.getQuantity()) {
+    		existingProd.setQty(existingProd.getQty() - order.getQuantity());
+    		if(existingProd.getQty() == 0) existingProd.setListed(false);
+    		prodrepo.save(existingProd);
+    		return orderService.saveOrder(order);
+    	}
+    	else {
+    		return null;
+    	}
+        
+    }
+    
+    @GetMapping
+    public List<Order> getAllOrders(){
+    	return orderrepo.findAll();
     }
 
     @GetMapping("/user/{userId}")
