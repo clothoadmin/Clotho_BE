@@ -21,10 +21,6 @@ public class Order {
 		return active;
 	}
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
 	@Column(nullable = false)
     private int userId;
 
@@ -41,7 +37,9 @@ public class Order {
     private int quantity;
 
     // Getters and Setters
-
+    public void setActive(boolean active) {
+		this.active = active;
+	}
     public int getQuantity() {
 		return quantity;
 	}

@@ -96,6 +96,17 @@ public class EmailController {
 		return "Email Test sent successfully";
 	}
 	
+	@PostMapping("/send-otp")
+	public String sendOTP( @RequestBody ReplyDTO data) {
+		try {
+			emailService.sendEmail(data.getTo(),data.getSubject(),data.getBody());
+			return "OTP sent successfully";
+		}catch(Error e) {
+			return e.getMessage();
+		}
+		
+	}
+	
 	@DeleteMapping("/delete/{id}")
 	public String deleteMessage(@PathVariable int id){
 		try {
